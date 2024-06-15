@@ -1,4 +1,4 @@
-# cmd: auto-py-to-exe
+# save forecast results to xls file with cmd: auto-py-to-exe
 # Console based, One file
 # 1 Day of Daily Weather Forecasts, printed into an xlsx file
 # Resource URL: http://dataservice.accuweather.com/forecasts/v1/daily/1day/{locationsapi}?apikey={apikey}
@@ -25,7 +25,7 @@ strurl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/{}?apikey={
 path = r"\\ST1\NewsRoom\GraphicModels\Mozaik\Kellekek\{}.png "
 
 n = 0  # number of apikeys
-nused = 0  # number of apikeys used already twice
+nr_used = 0  # number of apikeys used already twice
 code = []  # array of apikeys
 number = []
 if os.path.exists("api.txt"):
@@ -35,15 +35,15 @@ if os.path.exists("api.txt"):
         number.append(int(line[33:34]))
         n += 1
         if number[n - 1] == 2:
-            nused += 1
+            nr_used += 1
     f.close()
 else:
     print("Nincs az aktuális katalógusban api.txt\n")
     time.sleep(5)
     sys.exit()
 
-if nused != n:  # if the last was already used twice
-    apikey = code[nused]
+if nr_used != n:  # if the last was already used twice
+    apikey = code[nr_used]
 else:
     apikey = code[0]
 
@@ -52,10 +52,10 @@ os.remove('api.txt')
 g = open("api.txt", 'w')
 for i in range(0, n):
     line = code[i] + ' '
-    if i == nused:
+    if i == nr_used:
         number[i] += 1
 
-    if nused == 16:
+    if nr_used == 16:
         if i == 0:
             line = line + "1"
         else:
@@ -96,4 +96,3 @@ for citynr in range(len(city)):
 
 close = input(">>> Kilépéshez Enter <<<")
 file.close()
-# ©Magyari Zsuzsanna, 2019
